@@ -1,5 +1,10 @@
-build/default/debug/main.o: main.c config.h date_time.h
+build/default/debug/main.o: main.c config.h ctrl.h VL53L4CD_api.h \
+ VL53L4CD_platform.h
 
 config.h:
 
-date_time.h:
+ctrl.h:
+
+VL53L4CD_api.h:
+
+VL53L4CD_platform.h:

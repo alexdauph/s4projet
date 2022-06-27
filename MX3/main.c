@@ -8,13 +8,13 @@
 #include <sys/attribs.h>
 #include "config.h"
 #include "ctrl.h"
+#include "VL53L4CD_api.h"
 #include <string.h>
 
 #define TMR_TIME 0.001 // x us for each tick
 
 // Since the flag is changed within an interrupt, we need the keyword volatile.
 static volatile int Flag_1s = 0;
-
 
 void __ISR(_TIMER_1_VECTOR, IPL2AUTO) Timer1ISR(void)
 {
@@ -51,6 +51,11 @@ void main()
 
     initialize_timer_interrupt();
 
+    VL53L4CD_Result_t dist_res;
+    uint8_t data_ready;
+    uint8_t status = VL53L4CD_SensorInit(0x29);
+    status = VL53L4CD_StartRanging(0x29);
+
     /*PMODS_InitPin(0, 1, 0, 0, 0); // initialisation du JB1 (RC2)) pour D0
     PMODS_InitPin(0, 2, 0, 0, 0); // initialisation du JA2 (RC1)) pour D1
     PMODS_InitPin(0, 3, 0, 0, 0); // initialisation du JA3 (RC4)) pour D2
@@ -59,8 +64,9 @@ void main()
     PMODS_InitPin(0, 8, 0, 0, 0); // initialisation du JA4 (RG7)) pour strobe
     PMODS_SetValue(0, 8, 0);*/
 
-    int count_1s = 0;
     int count_10ms = 0;
+    int count_100ms = 0;
+    int count_1000ms = 0;
 
     macro_enable_interrupts();
 
@@ -70,36 +76,54 @@ void main()
         if (Flag_1s) // Flag d'interruption à chaque 1 ms
         {
             Flag_1s = 0; // Reset flag
-                
-            // Do every 1s
-            if (count_1s >= 1000)
-            {    
-                count_1s = 0;
-                       
-                LCD_WriteStringAtPos("Initial", 0, 0);   
-                
-                LCD_WriteIntAtPos(game.data, 6, 1, 0, 0);  
-            }
 
-            if(count_10ms >= 10)
+            // Do every 10ms
+            if (count_10ms >= 10)
             {
+                count_10ms = 0;
+                
                 // Proof of concept only
                 game.bits.dpad_up = BTN_GetValue('U');
                 game.bits.dpad_down = BTN_GetValue('D');
                 game.bits.dpad_left = BTN_GetValue('L');
                 game.bits.dpad_right = BTN_GetValue('R');
-                
+
                 game.bits.green = SWT_GetValue(7);
                 game.bits.red = SWT_GetValue(6);
                 game.bits.yellow = SWT_GetValue(5);
                 game.bits.blue = SWT_GetValue(4);
                 game.bits.orange = SWT_GetValue(3);
-                
+
                 CTRL_Refresh();
             }
 
-            count_1s++;
+            // Do every 100ms
+            if (count_100ms >= 100)
+            {
+                count_100ms = 0;
+                
+                // Proof of concept only
+                status = VL53L4CD_CheckForDataReady(0x29, &data_ready);
+                if (data_ready)
+                {
+                    status = VL53L4CD_GetResult(0x29, &dist_res);
+                    LCD_WriteIntAtPos(dist_res.distance_mm, 6, 1, 0, 0);
+                    status = VL53L4CD_ClearInterrupt(0x29);
+                }
+            }
+
+            // Do every 1s
+            if (count_1000ms >= 1000)
+            {
+                count_1000ms = 0;
+
+                LCD_WriteStringAtPos("Distance", 0, 0);
+                //LCD_WriteIntAtPos(game.data, 6, 1, 0, 0);
+            }
+
             count_10ms++;
+            count_100ms++;
+            count_1000ms++;
         }
     }
 }
