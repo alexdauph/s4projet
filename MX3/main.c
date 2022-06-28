@@ -8,7 +8,7 @@
 #include <sys/attribs.h>
 #include "config.h"
 #include "ctrl.h"
-#include "VL53L4CD_api.h"
+#include "dst.h"
 #include <string.h>
 
 #define TMR_TIME 0.001 // x us for each tick
@@ -48,13 +48,9 @@ void main()
     UART_Init(9600);
     I2C_Init(400000);
     SPIFLASH_Init();
+    DST_Init();
 
     initialize_timer_interrupt();
-
-    VL53L4CD_Result_t dist_res;
-    uint8_t data_ready;
-    uint8_t status = VL53L4CD_SensorInit(0x29);
-    status = VL53L4CD_StartRanging(0x29);
 
     /*PMODS_InitPin(0, 1, 0, 0, 0); // initialisation du JB1 (RC2)) pour D0
     PMODS_InitPin(0, 2, 0, 0, 0); // initialisation du JA2 (RC1)) pour D1
@@ -81,7 +77,7 @@ void main()
             if (count_10ms >= 10)
             {
                 count_10ms = 0;
-                
+
                 // Proof of concept only
                 game.bits.dpad_up = BTN_GetValue('U');
                 game.bits.dpad_down = BTN_GetValue('D');
@@ -101,15 +97,9 @@ void main()
             if (count_100ms >= 100)
             {
                 count_100ms = 0;
-                
-                // Proof of concept only
-                status = VL53L4CD_CheckForDataReady(0x29, &data_ready);
-                if (data_ready)
-                {
-                    status = VL53L4CD_GetResult(0x29, &dist_res);
-                    LCD_WriteIntAtPos(dist_res.distance_mm, 6, 1, 0, 0);
-                    status = VL53L4CD_ClearInterrupt(0x29);
-                }
+
+                uint16_t res = DST_Get();
+                LCD_WriteIntAtPos(res, 6, 1, 0, 0);
             }
 
             // Do every 1s
@@ -118,7 +108,7 @@ void main()
                 count_1000ms = 0;
 
                 LCD_WriteStringAtPos("Distance", 0, 0);
-                //LCD_WriteIntAtPos(game.data, 6, 1, 0, 0);
+                // LCD_WriteIntAtPos(game.data, 6, 1, 0, 0);
             }
 
             count_10ms++;

@@ -1,10 +1,7 @@
-build/default/debug/main.o: main.c config.h ctrl.h VL53L4CD_api.h \
- VL53L4CD_platform.h
+build/default/debug/main.o: main.c config.h ctrl.h dst.h
 
 config.h:
 
 ctrl.h:
 
-VL53L4CD_api.h:
-
-VL53L4CD_platform.h:
+dst.h:

@@ -1,7 +1,7 @@
 #ifndef _CTRL_H
 #define _CTRL_H
 
-#define CTRL_ADDRESS 0x69
+#define CTRL_ADDRESS 0x99
 
 void CTRL_Refresh(void);
 

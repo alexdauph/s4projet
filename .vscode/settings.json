@@ -2,6 +2,7 @@
     "files.associations": {
         "controller.h": "c",
         "vl53l4cd_platform.h": "c",
-        "i2c.h": "c"
+        "i2c.h": "c",
+        "dst.h": "c"
     }
 }

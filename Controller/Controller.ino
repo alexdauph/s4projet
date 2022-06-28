@@ -33,7 +33,7 @@ void setup()
 {
   // XInput.begin();
   // Serial.begin(9600);          // start serial for output
-  Wire.begin(0x69);            // join i2c bus with address #8
+  Wire.begin(0x99);            // join i2c bus with address #8
   Wire.onReceive(i2c_handler); // register event
 
   btns.data = 0;

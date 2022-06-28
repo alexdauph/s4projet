@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=config_bits.c led.c i2c.c acl.c adc.c aic.c spiflash.c lcd.c uart.c btn.c pmods.c main.c swt.c date_time.c ctrl.c VL53L4CD_api.c VL53L4CD_calibration.c VL53L4CD_platform.c
+SOURCEFILES_QUOTED_IF_SPACED=config_bits.c led.c i2c.c acl.c adc.c aic.c spiflash.c lcd.c uart.c btn.c pmods.c main.c swt.c date_time.c ctrl.c VL53L4CD_api.c VL53L4CD_calibration.c VL53L4CD_platform.c dst.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/config_bits.o ${OBJECTDIR}/led.o ${OBJECTDIR}/i2c.o ${OBJECTDIR}/acl.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/aic.o ${OBJECTDIR}/spiflash.o ${OBJECTDIR}/lcd.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/btn.o ${OBJECTDIR}/pmods.o ${OBJECTDIR}/main.o ${OBJECTDIR}/swt.o ${OBJECTDIR}/date_time.o ${OBJECTDIR}/ctrl.o ${OBJECTDIR}/VL53L4CD_api.o ${OBJECTDIR}/VL53L4CD_calibration.o ${OBJECTDIR}/VL53L4CD_platform.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/config_bits.o.d ${OBJECTDIR}/led.o.d ${OBJECTDIR}/i2c.o.d ${OBJECTDIR}/acl.o.d ${OBJECTDIR}/adc.o.d ${OBJECTDIR}/aic.o.d ${OBJECTDIR}/spiflash.o.d ${OBJECTDIR}/lcd.o.d ${OBJECTDIR}/uart.o.d ${OBJECTDIR}/btn.o.d ${OBJECTDIR}/pmods.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/swt.o.d ${OBJECTDIR}/date_time.o.d ${OBJECTDIR}/ctrl.o.d ${OBJECTDIR}/VL53L4CD_api.o.d ${OBJECTDIR}/VL53L4CD_calibration.o.d ${OBJECTDIR}/VL53L4CD_platform.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/config_bits.o ${OBJECTDIR}/led.o ${OBJECTDIR}/i2c.o ${OBJECTDIR}/acl.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/aic.o ${OBJECTDIR}/spiflash.o ${OBJECTDIR}/lcd.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/btn.o ${OBJECTDIR}/pmods.o ${OBJECTDIR}/main.o ${OBJECTDIR}/swt.o ${OBJECTDIR}/date_time.o ${OBJECTDIR}/ctrl.o ${OBJECTDIR}/VL53L4CD_api.o ${OBJECTDIR}/VL53L4CD_calibration.o ${OBJECTDIR}/VL53L4CD_platform.o ${OBJECTDIR}/dst.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/config_bits.o.d ${OBJECTDIR}/led.o.d ${OBJECTDIR}/i2c.o.d ${OBJECTDIR}/acl.o.d ${OBJECTDIR}/adc.o.d ${OBJECTDIR}/aic.o.d ${OBJECTDIR}/spiflash.o.d ${OBJECTDIR}/lcd.o.d ${OBJECTDIR}/uart.o.d ${OBJECTDIR}/btn.o.d ${OBJECTDIR}/pmods.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/swt.o.d ${OBJECTDIR}/date_time.o.d ${OBJECTDIR}/ctrl.o.d ${OBJECTDIR}/VL53L4CD_api.o.d ${OBJECTDIR}/VL53L4CD_calibration.o.d ${OBJECTDIR}/VL53L4CD_platform.o.d ${OBJECTDIR}/dst.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/config_bits.o ${OBJECTDIR}/led.o ${OBJECTDIR}/i2c.o ${OBJECTDIR}/acl.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/aic.o ${OBJECTDIR}/spiflash.o ${OBJECTDIR}/lcd.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/btn.o ${OBJECTDIR}/pmods.o ${OBJECTDIR}/main.o ${OBJECTDIR}/swt.o ${OBJECTDIR}/date_time.o ${OBJECTDIR}/ctrl.o ${OBJECTDIR}/VL53L4CD_api.o ${OBJECTDIR}/VL53L4CD_calibration.o ${OBJECTDIR}/VL53L4CD_platform.o
+OBJECTFILES=${OBJECTDIR}/config_bits.o ${OBJECTDIR}/led.o ${OBJECTDIR}/i2c.o ${OBJECTDIR}/acl.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/aic.o ${OBJECTDIR}/spiflash.o ${OBJECTDIR}/lcd.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/btn.o ${OBJECTDIR}/pmods.o ${OBJECTDIR}/main.o ${OBJECTDIR}/swt.o ${OBJECTDIR}/date_time.o ${OBJECTDIR}/ctrl.o ${OBJECTDIR}/VL53L4CD_api.o ${OBJECTDIR}/VL53L4CD_calibration.o ${OBJECTDIR}/VL53L4CD_platform.o ${OBJECTDIR}/dst.o
 
 # Source Files
-SOURCEFILES=config_bits.c led.c i2c.c acl.c adc.c aic.c spiflash.c lcd.c uart.c btn.c pmods.c main.c swt.c date_time.c ctrl.c VL53L4CD_api.c VL53L4CD_calibration.c VL53L4CD_platform.c
+SOURCEFILES=config_bits.c led.c i2c.c acl.c adc.c aic.c spiflash.c lcd.c uart.c btn.c pmods.c main.c swt.c date_time.c ctrl.c VL53L4CD_api.c VL53L4CD_calibration.c VL53L4CD_platform.c dst.c
 
 
 
@@ -215,6 +215,12 @@ ${OBJECTDIR}/VL53L4CD_platform.o: VL53L4CD_platform.c  .generated_files/flags/de
 	@${RM} ${OBJECTDIR}/VL53L4CD_platform.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/VL53L4CD_platform.o.d" -o ${OBJECTDIR}/VL53L4CD_platform.o VL53L4CD_platform.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)    
 	
+${OBJECTDIR}/dst.o: dst.c  .generated_files/flags/default/556a350d3f199f592b1b363d366bd94547df0d08 .generated_files/flags/default/3af7d0cee9bc17bf9ff6ffb94390ad7a428d1e6a
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/dst.o.d 
+	@${RM} ${OBJECTDIR}/dst.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/dst.o.d" -o ${OBJECTDIR}/dst.o dst.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)    
+	
 else
 ${OBJECTDIR}/config_bits.o: config_bits.c  .generated_files/flags/default/785a2b11a7e5465e61054558a8c6f85b73d8d6f0 .generated_files/flags/default/3af7d0cee9bc17bf9ff6ffb94390ad7a428d1e6a
 	@${MKDIR} "${OBJECTDIR}" 
@@ -323,6 +329,12 @@ ${OBJECTDIR}/VL53L4CD_platform.o: VL53L4CD_platform.c  .generated_files/flags/de
 	@${RM} ${OBJECTDIR}/VL53L4CD_platform.o.d 
 	@${RM} ${OBJECTDIR}/VL53L4CD_platform.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/VL53L4CD_platform.o.d" -o ${OBJECTDIR}/VL53L4CD_platform.o VL53L4CD_platform.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)    
+	
+${OBJECTDIR}/dst.o: dst.c  .generated_files/flags/default/1a2a82c7e43402cccd8fd88545133c4d3e970fe2 .generated_files/flags/default/3af7d0cee9bc17bf9ff6ffb94390ad7a428d1e6a
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/dst.o.d 
+	@${RM} ${OBJECTDIR}/dst.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/dst.o.d" -o ${OBJECTDIR}/dst.o dst.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)    
 	
 endif
 
