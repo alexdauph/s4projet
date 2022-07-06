@@ -218,7 +218,7 @@ int main(void)
   SYS_Initialize(NULL);
   MAIN_Initialize();
   SYS_INT_Enable();
-  SSD_WriteDigitsGrouped(0xFA9B, 0x1);
+  // SSD_WriteDigitsGrouped(0xFA9B, 0x1);
 
   while (1)
   {
@@ -231,7 +231,7 @@ int main(void)
 
 void TMR3_Init(void)
 {
-  PR3 = (int)(((float)(0.1 * PB_FRQ) / 256) + 0.5); // set period register, generates one interrupt every 300 us                     //             set period register, generates one interrupt every 300 us
+  PR3 = (int)(((float)(0.05 * PB_FRQ) / 256) + 0.5); // set period register, generates one interrupt every 50 ms                     //             set period register, generates one interrupt every 300 us
   TMR3 = 0;                                         //    initialize count to 0
   T3CONbits.TCKPS = 7;                              //    1:256 prescaler value
   T3CONbits.TGATE = 0;                              //    not gated input (the default)
@@ -248,9 +248,12 @@ void __ISR(_TIMER_3_VECTOR, IPL1AUTO) Timer3ISR(void)
   unsigned int distance;
   static unsigned int count = 0;
 
+  //Aller chercher l'état des boutons
+  
   distance = DST_Get();
   CTRL_Refresh();
 
+  /*
   // Example only
   LCD_WriteIntAtPos(distance, 6, 1, 0, 0);
 
@@ -263,7 +266,8 @@ void __ISR(_TIMER_3_VECTOR, IPL1AUTO) Timer3ISR(void)
     game.bits.dpad_up = 0;
     count = 0;
   }
-
+*/
+  
   IFS0bits.T3IF = 0; // clear interrupt flag
 }
 
