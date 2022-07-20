@@ -62,6 +62,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "accel.h"
 #include "lcd.h"
 #include "dst.h"
+#include "pmods.h"
 #include "ctrl.h"
 #include "app_commands.h"
 // *****************************************************************************
@@ -156,7 +157,14 @@ void MAIN_Initialize(void)
   ACL_Init();
   SSD_Init();
   TMR3_Init();
-  DST_Init();
+  PMODS_InitPin(1, 2, 1, 1, 0);
+  PMODS_InitPin(1, 3, 1, 1, 0);
+  PMODS_InitPin(1, 4, 1, 1, 0);
+  PMODS_InitPin(1, 7, 1, 1, 0);
+  PMODS_InitPin(1, 8, 1, 1, 0);
+  PMODS_InitPin(1, 9, 1, 1, 0);
+  PMODS_InitPin(1, 10, 1, 1, 0);
+  //DST_Init();
 }
 
 /******************************************************************************
@@ -250,13 +258,23 @@ void __ISR(_TIMER_3_VECTOR, IPL1AUTO) Timer3ISR(void)
 
   //Aller chercher l'état des boutons
   
-  distance = DST_Get();
+  //distance = DST_Get();
+  distance = 10;
+  game.bits.green = !PMODS_GetValue(1, 2);
+  game.bits.red = !PMODS_GetValue(1, 3);
+  game.bits.yellow = !PMODS_GetValue(1, 4);
+  game.bits.blue = !PMODS_GetValue(1, 7);
+  game.bits.orange = !PMODS_GetValue(1, 8);
+  game.bits.dpad_up = !PMODS_GetValue(1, 9);
+  game.bits.dpad_down = !PMODS_GetValue(1, 10);
+  //LCD_WriteIntAtPos(game.bits.green, 6, 1, 0, 0);
   CTRL_Refresh();
 
-  /*
+  
   // Example only
-  LCD_WriteIntAtPos(distance, 6, 1, 0, 0);
+  //LCD_WriteIntAtPos(distance, 6, 1, 0, 0);
 
+  /*
   // Example only
   count++;
   if (count == 20)

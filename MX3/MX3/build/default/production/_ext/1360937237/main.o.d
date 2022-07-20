@@ -364,7 +364,7 @@ build/default/production/_ext/1360937237/main.o: ../src/main.c \
  ../src/system_config/default/framework/driver/spi/src/drv_spi_sys_queue.h \
  ../src/system_config/default/framework/driver/spi/src/drv_spi_variant_mapping.h \
  ../src/UDP_app.h ../src/led.h ../src/config.h ../src/ssd.h \
- ../src/accel.h ../src/lcd.h ../src/dst.h ../src/ctrl.h \
+ ../src/accel.h ../src/lcd.h ../src/dst.h ../src/pmods.h ../src/ctrl.h \
  ../src/app_commands.h
 
 ../src/main.h:
@@ -1112,6 +1112,8 @@ build/default/production/_ext/1360937237/main.o: ../src/main.c \
 ../src/lcd.h:
 
 ../src/dst.h:
+
+../src/pmods.h:
 
 ../src/ctrl.h:
 
