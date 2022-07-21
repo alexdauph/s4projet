@@ -164,7 +164,9 @@ void MAIN_Initialize(void)
   PMODS_InitPin(1, 8, 1, 1, 0);
   PMODS_InitPin(1, 9, 1, 1, 0);
   PMODS_InitPin(1, 10, 1, 1, 0);
-  //DST_Init();
+  PMODS_InitPin(0, 9, 1, 1, 0); // start
+  PMODS_InitPin(0, 8, 1, 1, 0);
+  DST_Init();
 }
 
 /******************************************************************************
@@ -240,15 +242,15 @@ int main(void)
 void TMR3_Init(void)
 {
   PR3 = (int)(((float)(0.05 * PB_FRQ) / 256) + 0.5); // set period register, generates one interrupt every 50 ms                     //             set period register, generates one interrupt every 300 us
-  TMR3 = 0;                                         //    initialize count to 0
-  T3CONbits.TCKPS = 7;                              //    1:256 prescaler value
-  T3CONbits.TGATE = 0;                              //    not gated input (the default)
-  T3CONbits.TCS = 0;                                //    PCBLK input (the default)
-  IPC3bits.T3IP = 1;                                //    INT step 4: priority
-  IPC3bits.T3IS = 0;                                //    subpriority
-  IFS0bits.T3IF = 0;                                //    clear interrupt flag
-  IEC0bits.T3IE = 1;                                //    enable interrupt
-  T3CONbits.ON = 1;                                 //    turn on Timer3
+  TMR3 = 0;                                          //    initialize count to 0
+  T3CONbits.TCKPS = 7;                               //    1:256 prescaler value
+  T3CONbits.TGATE = 0;                               //    not gated input (the default)
+  T3CONbits.TCS = 0;                                 //    PCBLK input (the default)
+  IPC3bits.T3IP = 1;                                 //    INT step 4: priority
+  IPC3bits.T3IS = 0;                                 //    subpriority
+  IFS0bits.T3IF = 0;                                 //    clear interrupt flag
+  IEC0bits.T3IE = 1;                                 //    enable interrupt
+  T3CONbits.ON = 1;                                  //    turn on Timer3
 }
 
 void __ISR(_TIMER_3_VECTOR, IPL1AUTO) Timer3ISR(void)
@@ -256,10 +258,9 @@ void __ISR(_TIMER_3_VECTOR, IPL1AUTO) Timer3ISR(void)
   unsigned int distance;
   static unsigned int count = 0;
 
-  //Aller chercher l'état des boutons
-  
-  //distance = DST_Get();
-  distance = 10;
+  // Aller chercher l'Ã©tat des boutons
+
+  // distance = 10;
   game.bits.green = !PMODS_GetValue(1, 2);
   game.bits.red = !PMODS_GetValue(1, 3);
   game.bits.yellow = !PMODS_GetValue(1, 4);
@@ -267,12 +268,13 @@ void __ISR(_TIMER_3_VECTOR, IPL1AUTO) Timer3ISR(void)
   game.bits.orange = !PMODS_GetValue(1, 8);
   game.bits.dpad_up = !PMODS_GetValue(1, 9);
   game.bits.dpad_down = !PMODS_GetValue(1, 10);
-  //LCD_WriteIntAtPos(game.bits.green, 6, 1, 0, 0);
+  game.bits.start = !PMODS_GetValue(0, 9);
+  game.bits.white = !PMODS_GetValue(0, 8); // BACK
   CTRL_Refresh();
 
-  
   // Example only
-  //LCD_WriteIntAtPos(distance, 6, 1, 0, 0);
+  distance = DST_Get();
+  LCD_WriteIntAtPos(distance, 6, 0, 0, 0);
 
   /*
   // Example only
@@ -285,7 +287,7 @@ void __ISR(_TIMER_3_VECTOR, IPL1AUTO) Timer3ISR(void)
     count = 0;
   }
 */
-  
+
   IFS0bits.T3IF = 0; // clear interrupt flag
 }
 
