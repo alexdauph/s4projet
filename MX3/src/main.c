@@ -64,6 +64,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "dst.h"
 #include "pmods.h"
 #include "ctrl.h"
+#include "btn.h"
 #include "app_commands.h"
 // *****************************************************************************
 // *****************************************************************************
@@ -157,6 +158,7 @@ void MAIN_Initialize(void)
   ACL_Init();
   SSD_Init();
   TMR3_Init();
+
   PMODS_InitPin(1, 2, 1, 1, 0);
   PMODS_InitPin(1, 3, 1, 1, 0);
   PMODS_InitPin(1, 4, 1, 1, 0);
@@ -167,6 +169,7 @@ void MAIN_Initialize(void)
   PMODS_InitPin(0, 9, 1, 1, 0); // start
   PMODS_InitPin(0, 8, 1, 1, 0);
   DST_Init();
+  CTRL_Init();
 }
 
 /******************************************************************************
@@ -258,36 +261,21 @@ void __ISR(_TIMER_3_VECTOR, IPL1AUTO) Timer3ISR(void)
   unsigned int distance;
   static unsigned int count = 0;
 
-  // Aller chercher l'état des boutons
+  // Get button values
+  ctrl.btns.bits.green = !PMODS_GetValue(1, 2);
+  ctrl.btns.bits.red = !PMODS_GetValue(1, 3);
+  ctrl.btns.bits.yellow = !PMODS_GetValue(1, 4);
+  ctrl.btns.bits.blue = !PMODS_GetValue(1, 7);
+  ctrl.btns.bits.orange = !PMODS_GetValue(1, 8);
+  ctrl.btns.bits.dpad_up = !PMODS_GetValue(1, 9);
+  ctrl.btns.bits.dpad_down = !PMODS_GetValue(1, 10);
+  ctrl.btns.bits.start = !PMODS_GetValue(0, 9);
+  ctrl.btns.bits.white = !PMODS_GetValue(0, 8); // BACK
 
-  // distance = 10;
-  game.bits.green = !PMODS_GetValue(1, 2);
-  game.bits.red = !PMODS_GetValue(1, 3);
-  game.bits.yellow = !PMODS_GetValue(1, 4);
-  game.bits.blue = !PMODS_GetValue(1, 7);
-  game.bits.orange = !PMODS_GetValue(1, 8);
-  game.bits.dpad_up = !PMODS_GetValue(1, 9);
-  game.bits.dpad_down = !PMODS_GetValue(1, 10);
-  game.bits.start = !PMODS_GetValue(0, 9);
-  game.bits.white = !PMODS_GetValue(0, 8); // BACK
   CTRL_Refresh();
 
-  // Example only
   distance = DST_Get();
   LCD_WriteIntAtPos(distance, 6, 0, 0, 0);
-
-  /*
-  // Example only
-  count++;
-  if (count == 20)
-    game.bits.dpad_up = 1;
-  if (count == 21)
-  {
-    game.bits.dpad_up = 0;
-    count = 0;
-  }
-*/
-
   IFS0bits.T3IF = 0; // clear interrupt flag
 }
 

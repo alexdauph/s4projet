@@ -3,6 +3,7 @@
         "controller.h": "c",
         "vl53l4cd_platform.h": "c",
         "i2c.h": "c",
-        "dst.h": "c"
+        "dst.h": "c",
+        "btn.h": "c"
     }
 }
