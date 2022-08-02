@@ -63,6 +63,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "main.h"
 #include "system_definitions.h"
 #include "accel.h"
+#include "ctrl.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -78,7 +79,42 @@ void __ISR(_UART_4_VECTOR, ipl1AUTO) _IntHandlerDrvUsartInstance0(void)
 
 void __ISR(_EXTERNAL_4_VECTOR, IPL1AUTO) _IntHandlerExternalInterruptInstance0(void)
 {
+  static int buffer[16] = {};
+  static int i = 0;
+  static int filled = false;
+  int k = 0;
+  int avg = 0;
+  // static int i = 0;
+  int accelX, accelY, accelZ;
+
   ACL_ReadRawValues(accel_buffer);
+  accelX = ((signed int)accel_buffer[0] << 24) >> 20 | accel_buffer[1] >> 4; // VR
+  accelY = ((signed int)accel_buffer[0] << 24) >> 20 | accel_buffer[1] >> 4; // VR
+  accelZ = ((signed int)accel_buffer[4] << 24) >> 20 | accel_buffer[5] >> 4; // VR
+
+  buffer[i] = accelX;
+  i++;
+
+  if (i == 16)
+  {
+    i = 0;
+    filled = true;
+  }
+
+  for (k = 0; k < 16; k++)
+  {
+    avg += buffer[k];
+  }
+  avg /= 16;
+
+  if (avg < 0)
+    avg *= -1;
+
+  if (avg < 100 && filled == true)
+  {
+    ctrl.btns.bits.green = 1;
+  }
+
   ACL_GetRegister(ACL_INT_SOURCE);
   accel_data_ready = true;
   PLIB_INT_SourceFlagClear(INT_ID_0, INT_SOURCE_EXTERNAL_4);
