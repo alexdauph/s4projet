@@ -169,6 +169,8 @@ typedef struct
   Remarks:
     This routine must be called from the SYS_Initialize function.
 */
+void sendTask ();
+
 
 void UDP_Initialize(void);
 

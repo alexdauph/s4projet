@@ -72,10 +72,10 @@ bool UDP_Commands_Init()
 }
 
 char UDP_Hostname_Buffer[MAX_URL_SIZE];
-char UDP_Port_Buffer[6];
-char UDP_Send_Buffer[MAX_PACKET_SIZE + 1];
-char UDP_Receive_Buffer[MAX_PACKET_SIZE + 1];
-uint8_t UDP_Server_Receive_Buffer[MAX_PACKET_SIZE + 1];
+char UDP_Port_Buffer[6];                    //======================
+char UDP_Send_Buffer[256];                  //======================
+char UDP_Receive_Buffer[3];                 //======================
+uint8_t UDP_Server_Receive_Buffer[64];      //======================
 bool UDP_Send_Packet = false;
 bool UDP_Receive_Packet = false;
 uint16_t UDP_bytes_to_send = 0;

@@ -284,12 +284,14 @@ void __ISR(_TIMER_3_VECTOR, IPL1AUTO) Timer3ISR(void)
   {
     ctrl.btns.bits.dpad_up = BTN_GetValue('R');
     ctrl.btns.bits.dpad_down = BTN_GetValue('L');
+    LCD_WriteStringAtPos("Mode Menu", 1, 0);
   }
   // Game mode
   else
   {
     ctrl.btns.bits.dpad_up = !PMODS_GetValue(1, 9);
     ctrl.btns.bits.dpad_down = !PMODS_GetValue(1, 10);
+    LCD_WriteStringAtPos("Mode Jeu ", 1, 0);
     
   }
 
