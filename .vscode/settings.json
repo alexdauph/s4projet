@@ -4,6 +4,8 @@
         "vl53l4cd_platform.h": "c",
         "i2c.h": "c",
         "dst.h": "c",
-        "btn.h": "c"
+        "btn.h": "c",
+        "app_commands.h": "c",
+        "swt.h": "c"
     }
 }

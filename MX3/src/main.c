@@ -65,6 +65,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "pmods.h"
 #include "ctrl.h"
 #include "btn.h"
+#include "swt.h"
 #include "app_commands.h"
 // *****************************************************************************
 // *****************************************************************************
@@ -258,8 +259,39 @@ void TMR3_Init(void)
 
 void __ISR(_TIMER_3_VECTOR, IPL1AUTO) Timer3ISR(void)
 {
-  unsigned int distance;
-  static unsigned int count = 0;
+  static unsigned int last_distance;
+  unsigned int distance = DST_Get();
+
+  if (distance < 44 || (distance > 300 && last_distance < 100))
+    distance = 44;
+  else if (distance > 300)
+    distance = 300;
+  last_distance = distance;
+
+  if (distance > 172)
+  {
+    ctrl.joystick_right_x = distance - 172;
+    ctrl.joystick_right_x = (ctrl.joystick_right_x << 8) * (-1);
+  }
+  else
+  {
+    ctrl.joystick_right_x = 172 - distance;
+    ctrl.joystick_right_x = (ctrl.joystick_right_x << 8) + (-1);
+  }
+
+  // Menu mode
+  if (SWT_GetValue(7) == 1)
+  {
+    ctrl.btns.bits.dpad_up = BTN_GetValue('R');
+    ctrl.btns.bits.dpad_down = BTN_GetValue('L');
+  }
+  // Game mode
+  else
+  {
+    ctrl.btns.bits.dpad_up = !PMODS_GetValue(1, 9);
+    ctrl.btns.bits.dpad_down = !PMODS_GetValue(1, 10);
+    
+  }
 
   // Get button values
   ctrl.btns.bits.green = !PMODS_GetValue(1, 2);
@@ -267,14 +299,12 @@ void __ISR(_TIMER_3_VECTOR, IPL1AUTO) Timer3ISR(void)
   ctrl.btns.bits.yellow = !PMODS_GetValue(1, 4);
   ctrl.btns.bits.blue = !PMODS_GetValue(1, 7);
   ctrl.btns.bits.orange = !PMODS_GetValue(1, 8);
-  ctrl.btns.bits.dpad_up = !PMODS_GetValue(1, 9);
-  ctrl.btns.bits.dpad_down = !PMODS_GetValue(1, 10);
   ctrl.btns.bits.start = !PMODS_GetValue(0, 9);
   ctrl.btns.bits.white = !PMODS_GetValue(0, 8); // BACK
 
   CTRL_Refresh();
 
-  distance = DST_Get();
+  // distance = DST_Get();
   LCD_WriteIntAtPos(distance, 6, 0, 0, 0);
   IFS0bits.T3IF = 0; // clear interrupt flag
 }
